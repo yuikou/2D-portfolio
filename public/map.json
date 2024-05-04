@@ -357,15 +357,37 @@
                  "y":80.25
                 }, 
                 {
-                 "height":15.6363636363636,
+                 "height":15,
                  "id":36,
-                 "name":"collections",
+                 "name":"plave",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":46.3636363636364,
-                 "x":224.181818181818,
-                 "y":160.363636363636
+                 "width":46,
+                 "x":224.727272727273,
+                 "y":160.727272727273
+                }, 
+                {
+                 "height":15.6363636363636,
+                 "id":38,
+                 "name":"shu",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.1818181818182,
+                 "x":304.545454545454,
+                 "y":159.818181818181
+                }, 
+                {
+                 "height":15.6363636363636,
+                 "id":39,
+                 "name":"TBC",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.1818181818182,
+                 "x":319.818181818182,
+                 "y":159.818181818182
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -397,7 +419,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":38,
+ "nextobjectid":40,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

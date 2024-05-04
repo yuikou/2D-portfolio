@@ -1,17 +1,17 @@
 import { scaleFactor } from "./constants";
 import { k } from "./kaboomCtx";
-import { displayDialogue } from "./utils";
+import { displayDialogue, setCamScale } from "./utils";
 
 k.loadSprite("spritesheet", "./spritesheet.png", {
   sliceX: 39,
   sliceY: 31,
   anims: {
     "idle-down": 780,
-    "walk-down": { from: 780, to: 781, loop: true, speed: 10 },
+    "walk-down": { from: 780, to: 781, loop: true, speed: 9 },
     "idle-side": 782,
-    "walk-side": { from: 782, to: 783, loop: true, speed: 10 },
+    "walk-side": { from: 782, to: 783, loop: true, speed: 9 },
     "idle-up": 819,
-    "walk-up": { from: 819, to: 820, loop: true, speed: 10 },
+    "walk-up": { from: 819, to: 820, loop: true, speed: 9 },
   },
 });
 
@@ -80,6 +80,12 @@ k.scene("main", async () => {
     }
   }
 
+  setCamScale(k);
+
+  k.onResize(() => {
+    setCamScale(k);
+  });
+
   k.onUpdate(() => {
     k.camPos(player.pos.x, player.pos.y + 100);
   });
@@ -89,6 +95,64 @@ k.scene("main", async () => {
 
     const worldMousePos = k.toWorld(k.mousePos());
     player.moveTo(worldMousePos, player.speed);
+
+    const mouseAngle = player.pos.angle(worldMousePos);
+
+    const lowerBound = 50;
+    const upperBound = 125;
+
+    //upper animation
+    if (
+      mouseAngle > lowerBound &&
+      mouseAngle < upperBound &&
+      player.curAnim() != "walk-up"
+    ) {
+      player.play("walk-up");
+      player.direction = "up";
+      return;
+    }
+
+    //down animation
+    if (
+      mouseAngle < -lowerBound &&
+      mouseAngle > -upperBound &&
+      player.curAnim() != "walk-down"
+    ) {
+      player.play("walk-down");
+      player.direction = "down";
+      return;
+    }
+
+    //right animation
+    if (Math.abs(mouseAngle) > upperBound) {
+      player.flipX = false;
+      if (player.curAnim() !== "walk-side") player.play("walk-side");
+      player.direction = "right";
+      return;
+    }
+
+    //left animation
+    if (Math.abs(mouseAngle) < lowerBound) {
+      player.flipX = true;
+      if (player.curAnim() !== "walk-side") player.play("walk-side");
+      player.direction = "left";
+      return;
+    }
+
+    //stop the player after moving
+    k.onMouseRelease(() => {
+      if (player.direction === "down") {
+        player.play("idle-down");
+        return;
+      }
+
+      if (player.direction === "up") {
+        player.play("idle-up");
+        return;
+      }
+
+      player.play("idle-side");
+    });
   });
 });
 
