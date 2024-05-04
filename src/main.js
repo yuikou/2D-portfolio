@@ -7,11 +7,11 @@ k.loadSprite("spritesheet", "./spritesheet.png", {
   sliceY: 31,
   anims: {
     "idle-down": 780,
-    "walk-down": { from: 780, to: 781, loop: true, speed: 8 },
+    "walk-down": { from: 780, to: 781, loop: true, speed: 10 },
     "idle-side": 782,
-    "walk-side": { from: 782, to: 783, loop: true, speed: 8 },
+    "walk-side": { from: 782, to: 783, loop: true, speed: 10 },
     "idle-up": 819,
-    "walk-up": { from: 819, to: 820, loop: true, speed: 8 },
+    "walk-up": { from: 819, to: 820, loop: true, speed: 10 },
   },
 });
 
@@ -26,7 +26,7 @@ k.scene("main", async () => {
   const layers = mapData.layers;
 
   //game objects(make the array of components)
-  const map = k.make([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
+  const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
   const player = k.make([
     k.sprite("spritesheet", { anim: "idle-down" }),
     k.area({
@@ -65,7 +65,31 @@ k.scene("main", async () => {
       }
       continue;
     }
+
+    if (layer.name === "spawnpoints") {
+      for (const entity of layer.objects) {
+        if (entity.name === "player") {
+          player.pos = k.vec2(
+            (map.pos.x + entity.x) * scaleFactor,
+            (map.pos.y + entity.y) * scaleFactor
+          );
+          k.add(player);
+          continue;
+        }
+      }
+    }
   }
+
+  k.onUpdate(() => {
+    k.camPos(player.pos.x, player.pos.y + 100);
+  });
+
+  k.onMouseDown((mouseBtn) => {
+    if (mouseBtn !== "left" || player.isInDialogue) return;
+
+    const worldMousePos = k.toWorld(k.mousePos());
+    player.moveTo(worldMousePos, player.speed);
+  });
 });
 
 //default scene

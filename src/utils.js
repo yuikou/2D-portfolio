@@ -7,7 +7,7 @@ export function displayDialogue(text, onDisplayEnd) {
   //the way to display dialogue text
   let index = 0;
   let currentText = "";
-  const intervalRef = serInterval(() => {
+  const intervalRef = setInterval(() => {
     if (index < text.length) {
       currentText += text[index];
       dialogue.innerHTML = currentText;
@@ -25,7 +25,7 @@ export function displayDialogue(text, onDisplayEnd) {
     onDisplayEnd();
     dialogueUI.style.display = "none";
     dialogue.innerHTML = "";
-    clearImmediate(intervalRef);
+    clearInterval(intervalRef);
     closeBtn.removeEventListener("click", onCloseBtnClick);
   }
 
