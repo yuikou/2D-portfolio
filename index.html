@@ -8,14 +8,88 @@
   </head>
   <body>
     <style>
+      /* the way how kabboom import font style */
+      @font-face {
+        font-family: monogram;
+        src: url(monogram.ttf);
+      }
+
+      body {
+        font-family: monogram, monospace; /*use monosoace as a fallback*/
+        font-size: 2rem;
+        overflow: hidden; /*make the scollbar not appear*/
+      }
+
       #app {
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        position: relative;
+      }
+
+      #textbox-container {
+        display: none;
+      }
+
+      #textbox {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        bottom: 2vh;
+        min-height: 10vh;
+        background: white;
+        border-radius: 3px;
+        outline-style: solid;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: flex-start; /* start from top left */
+        align-items: flex-start; /* start from top left */
+        word-spacing: 0.2rem;
+        filter: drop-shadow(0 0 0 0.75rem rgb(112, 112, 112));
+      }
+
+      .ui-text {
+        margin: 0;
+        user-select: none; /* user cannot select the words in text box */
+      }
+
+      .ui-close-btn {
+        font-family: inherit;
+        border-style: none;
+        border-radius: 3px;
+        padding: 1rem;
+        font-size: inherit;
+      }
+
+      .btn-container {
+        align-self: flex-end;
+        margin-top: 1rem;
+      }
+
+      .note {
+        position: absolute;
+        left: 5%;
+        top: 1vh;
+        display: flex;
+        flex-direction: column;
+        color: rgb(238, 238, 238);
+        user-select: none;
       }
     </style>
     <div id="app">
-      <div id="ui"></div>
+      <div id="ui">
+        <p class="note">Tap/Click around to move</p>
+        <!-- actual dialogue ui -->
+        <div id="textbox-container">
+          <div id="textbox">
+            <p id="dialogue" class="ui-text"></p>
+            <div class="btn-container">
+              <button id="close" class="ui-close-btn">CLose</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <canvas id="game"></canvas>
     </div>
     <script type="module" src="src/main.js"></script>
