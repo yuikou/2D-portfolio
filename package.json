@@ -13,6 +13,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "gh-pages": "^6.1.1",
     "kaboom": "^3000.1.17"
   }
 }
